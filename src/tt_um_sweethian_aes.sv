@@ -23,7 +23,7 @@ module tt_um_sweethian_aes (
   // Instantiate serial wrapper
   // Set NUM_SBOX to 1 for lowest possible area.
   AES_serial_wrapper #(
-      .NUM_SBOX(1),
+      .NUM_SBOX(2),
       .ONE_ROUND(0),
       .ROM(0)
   ) aes_wrapper_inst (
