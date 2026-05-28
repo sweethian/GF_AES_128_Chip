@@ -51,7 +51,37 @@ module key_expansion (
 
 endmodule
 
-// Purely combinational
+// // Purely combinational
+// module shift_rows (
+//     input  logic [127:0] in,
+//     output logic [127:0] out
+// );
+//   // Index = col * NUM_ROWS + row (Column major indexing)
+//   localparam int NumRows = 4, NumCols = 4, NumBits = 8;
+
+//   // Helper functions, yeah I know seems excessive, but it felt more elegant than hardcoding
+//   function automatic logic [NumBits-1:0] get_byte(input logic [127:0] state, input int row,
+//                                                   input int col);
+//     get_byte = state[127-NumBits*(NumRows*col+row)-:NumBits];
+//   endfunction
+
+//   function automatic void set_byte(inout logic [127:0] state, input int row, input int col,
+//                                    input logic [NumBits-1:0] value);
+//     state[127-NumBits*(NumRows*col+row)-:NumBits] = value;
+//   endfunction
+//   // End of Helper functions
+
+//   always_comb begin
+//     out = '0;
+
+//     for (int row = 0; row < NumRows; row++) begin
+//       for (int col = 0; col < NumCols; col++) begin
+//         set_byte(out, row, col, get_byte(in, row, (col + row) % NumCols));
+//       end
+//     end
+//   end
+// endmodule
+
 module shift_rows (
     input  logic [127:0] in,
     output logic [127:0] out
@@ -59,21 +89,21 @@ module shift_rows (
   // Index = col * NUM_ROWS + row (Column major indexing)
   localparam int NumRows = 4, NumCols = 4, NumBits = 8;
 
-  // Helper functions, yeah I know seems excessive, but it felt more elegant than hardcoding
+  // Helper: read a byte (function is fine -- all inputs, returns a value)
   function automatic logic [NumBits-1:0] get_byte(input logic [127:0] state, input int row,
                                                   input int col);
     get_byte = state[127-NumBits*(NumRows*col+row)-:NumBits];
   endfunction
 
-  function automatic void set_byte(inout logic [127:0] state, input int row, input int col,
-                                   input logic [NumBits-1:0] value);
+  // Helper: write a byte. MUST be a task, not a function -- functions cannot
+  // have inout/output args in Verilog (Icarus enforces this strictly).
+  task automatic set_byte(inout logic [127:0] state, input int row, input int col,
+                          input logic [NumBits-1:0] value);
     state[127-NumBits*(NumRows*col+row)-:NumBits] = value;
-  endfunction
-  // End of Helper functions
+  endtask
 
   always_comb begin
     out = '0;
-
     for (int row = 0; row < NumRows; row++) begin
       for (int col = 0; col < NumCols; col++) begin
         set_byte(out, row, col, get_byte(in, row, (col + row) % NumCols));
