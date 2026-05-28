@@ -22,8 +22,9 @@ module tt_um_sweethian_aes (
 
   // Instantiate serial wrapper
   // Set NUM_SBOX to 1 for lowest possible area.
+  // Increasing to 2 just increased utilization of TT by 2%, so lets try 4
   AES_serial_wrapper #(
-      .NUM_SBOX(2),
+      .NUM_SBOX(4),
       .ONE_ROUND(0),
       .ROM(0)
   ) aes_wrapper_inst (
