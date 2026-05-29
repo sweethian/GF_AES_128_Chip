@@ -26,9 +26,10 @@ module tt_um_sweethian_aes (
   // Increasing to 4 GDS task fails with unresolvable routing/time/placement violations
   // Maybe more tiles wil fix, but not worth the extra cost
   // Gonna do a one round flow just to see the stats
+  // Final design LRSP with 2-Sbox, area 3*2
   AES_serial_wrapper #(
       .NUM_SBOX(2),
-      .ONE_ROUND(1),
+      .ONE_ROUND(0),
       .ROM(0)
   ) aes_wrapper_inst (
       .clk(clk),
