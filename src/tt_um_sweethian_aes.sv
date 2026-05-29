@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2026 Goh Swee Thian, Shahum Saeed
+ * Copyright (c) 2026 MusangChip [Goh Swee Thian, Shahum Saeed]
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -22,10 +22,13 @@ module tt_um_sweethian_aes (
 
   // Instantiate serial wrapper
   // Set NUM_SBOX to 1 for lowest possible area.
-  // Increasing to 2 just increased utilization of TT by 2%, so lets try 4
+  // Increasing to 2 just increased utilization of TT by 2%
+  // Increasing to 4 GDS task fails with unresolvable routing/time/placement violations
+  // Maybe more tiles wil fix, but not worth the extra cost
+  // Gonna do a one round flow just to see the stats
   AES_serial_wrapper #(
-      .NUM_SBOX(4),
-      .ONE_ROUND(0),
+      .NUM_SBOX(2),
+      .ONE_ROUND(1),
       .ROM(0)
   ) aes_wrapper_inst (
       .clk(clk),
