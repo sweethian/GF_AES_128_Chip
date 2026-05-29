@@ -20,6 +20,7 @@ project:
     - "tt_um_sweethian_aes.sv"
     - "AES_serial_wrapper.sv"
     - "AES_controller.sv"
+    - "AES_controller_one_round.sv"
     - "modules_AES.sv"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.

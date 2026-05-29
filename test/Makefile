@@ -6,7 +6,7 @@ SIM ?= icarus
 FST ?= -fst # Use more efficient FST format
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = tt_um_sweethian_aes.sv AES_serial_wrapper.sv AES_controller.sv modules_AES.sv
+PROJECT_SOURCES = tt_um_sweethian_aes.sv AES_serial_wrapper.sv AES_controller_one_round.sv AES_controller.sv modules_AES.sv
 
 ifneq ($(GATES),yes)
 
